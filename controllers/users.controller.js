@@ -1,11 +1,10 @@
 const connection = require("../config/database.js");
 
-// Create and Save a new Todo
+// Creer un user
 exports.create = (req, res) => {
-	// Validate request
 	if (!req.body) {
 		return res.status(400).send({
-			message: "Todo description can not be empty",
+			message: "Les champs ne doivent pas être vides",
 		});
 	}
 
@@ -25,10 +24,10 @@ exports.create = (req, res) => {
 	);
 };
 
-// Retrieve and return all todos from the database.
+// Retrouver tous les users
 exports.findAll = (req, res) => {
 	connection.query(
-		"select firstname, lastname from users",
+		"SELECT firstname, lastname from users",
 		function (error, results, fields) {
 			if (error) throw error;
 			res.end(JSON.stringify(results));
@@ -36,10 +35,10 @@ exports.findAll = (req, res) => {
 	);
 };
 
-// Find a single todo with a id
+// Trouver un user
 exports.findOne = (req, res) => {
 	connection.query(
-		"select firstname, lastname, email, groupes from users where Id=?",
+		"SELECT firstname, lastname, email, groupes from users where Id=?",
 		[req.params.id],
 		function (error, results, fields) {
 			if (error) throw error;
@@ -48,17 +47,14 @@ exports.findOne = (req, res) => {
 	);
 };
 
-// Update a todo identified by the id in the request
+// Modifier un user
 exports.update = (req, res) => {
-	// Validate Request
 	if (!req.body) {
 		return res.status(400).send({
-			message: "Todo description can not be empty",
+			message: "Les champs ne doivent pas être vides",
 		});
 	}
 
-	// console.log(req.params.id);
-	// console.log(req.body.firstname);
 	connection.query(
 		"UPDATE users SET firstname= ?, lastname= ?, email= ?, password= ?, created_at= ?, updated_at= ? where id= ?",
 		[
@@ -77,7 +73,7 @@ exports.update = (req, res) => {
 	);
 };
 
-// Delete a todo with the specified id in the request
+// Supprimer un user
 exports.delete = (req, res) => {
 	console.log(req.body);
 	connection.query(
@@ -85,7 +81,7 @@ exports.delete = (req, res) => {
 		[req.body.id],
 		function (error, results, fields) {
 			if (error) throw error;
-			res.end("Record has been deleted!");
+			res.end("Un utilisateur a été supprimé");
 		}
 	);
 };
